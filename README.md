@@ -112,12 +112,13 @@ The site’s visual appearance will be evaluated on whether or not the design lo
    - Put a link to it on the readme.
    - My Figma Project - [here](https://www.figma.com/file/XSAW1FlHs2JebKeQ5r46Se/MidTerm?type=design&node-id=0%3A1&mode=design&t=qUEZX4p3ZeLsw9Kf-1)
 
-- GitHub Pages Hosted Project - [here](https://njit-wis.github.io/midterm-portfolio-Nissi-Prabhatha/)
+- My GitHub Pages Hosted Project - [here](https://njit-wis.github.io/midterm-portfolio-Nissi-Prabhatha/)
 
 3. **Figma Screenshot**
    - Export a full-size image of your site design from Figma.
    - Add this image to your repository's README.  This image will be used to check your design implementation.
-   - Figma full-size image [figma](Figma_screensht.png)
+   - Figma full-size image
+     ![Figma screenshot](docs/images/Figma_screensht.png)
 
 4. **Submitting on Canvas**
    - Provide the link to your live website and the link to your GitHub repository in Canvas.
