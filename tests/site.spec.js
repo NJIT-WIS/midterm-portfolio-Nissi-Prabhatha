@@ -1,124 +1,104 @@
+// @ts-check
 const { test, expect } = require('@playwright/test');
 
-const websiteURL = 'http://localhost:3000'; // Update with your website URL
+const websiteURL = 'http://localhost:3000'; // Replace with the URL of the student's resume page
 
-// Test case 1: Check Page Title
 test('Check Page Title', async ({ page }) => {
   const title = await page.title();
-  expect(title).toBe('Nissi Portfolio Website');
+  expect(title).toBe('Personal Portfolio Website - Nissi');
 });
 
-// Test case 2: Check Logo in Header
-test('Check Logo in Header', async ({ page }) => {
+test('Check if Logo Image is Present', async ({ page }) => {
   const logoImage = await page.locator('.logo img');
-  const logoImageCount = await logoImage.count();
-  expect(logoImageCount).toBe(1); // Check if there's exactly one image inside the logo container
+  expect(await logoImage.count()).toBe(1);
 });
 
-// Test case 3: Check Navigation Menu
-test('Check Navigation Menu', async ({ page }) => {
-  const menuItems = await page.locator('#sidemenu li a').count();
-  expect(menuItems).toBe(5); // Five menu items
+test('Check if Navigation Menu is Present', async ({ page }) => {
+  const menuItems = await page.locator('#sidemenu li');
+  expect(await menuItems.count()).toBe(5);
 });
 
-// Test case 4: Check Hero Section
-test('Check Hero Section', async ({ page }) => {
-  const heroTitle = await page.locator('.header-text h1').textContent();
-  expect(heroTitle).toContain("HI, I'm Nissi From New Jersey");
+test('Check if About Section is Present', async ({ page }) => {
+  const aboutSection = await page.locator('#about');
+  expect(await aboutSection.count()).toBe(1);
 });
 
-// Test case 5: Check About Section
-test('Check About Section', async ({ page }) => {
-  const aboutTitle = await page.locator('#about h1').textContent();
-  expect(aboutTitle).toBe('About Me');
+test('Check if Services Section is Present', async ({ page }) => {
+  const servicesSection = await page.locator('#services');
+  expect(await servicesSection.count()).toBe(1);
 });
 
-// Test case 6: Check Services Section
-test('Check Services Section', async ({ page }) => {
-  const servicesTitle = await page.locator('#services h1').textContent();
-  expect(servicesTitle).toBe('Services');
+test('Check if Portfolio Section is Present', async ({ page }) => {
+  const portfolioSection = await page.locator('#portfolio');
+  expect(await portfolioSection.count()).toBe(1);
 });
 
-// Test case 7: Check Portfolio Section
-test('Check Portfolio Section', async ({ page }) => {
-  const portfolioTitle = await page.locator('#portfolio h1').textContent();
-  expect(portfolioTitle).toBe('My Work');
+test('Check if Contact Section is Present', async ({ page }) => {
+  const contactSection = await page.locator('#contact');
+  expect(await contactSection.count()).toBe(1);
 });
 
-// Test case 8: Check Contact Section
-test('Check Contact Section', async ({ page }) => {
-  const contactTitle = await page.locator('#contact h1').textContent();
-  expect(contactTitle).toBe('Contact Me');
+test('Check if "Python Developer" Text is Present in Header', async ({ page }) => {
+  const pythonDeveloperText = await page.locator('.header-text p');
+  expect(await pythonDeveloperText.innerText()).toBe('Python Developer');
 });
 
-// Test case 9: Check Meta Description
-test('Check Meta Description', async ({ page }) => {
-  const metaDescription = await page.locator('meta[name="description"]').getAttribute('content');
-  expect(metaDescription).toBe('Personal Portfolio Website - Nissi');
+test('Check if "HI, I\'m Nissi From New Jersey" Text is Present in Header', async ({ page }) => {
+  const headerText = await page.locator('.header-text h1');
+  expect(await headerText.innerText()).toBe('HI, I\'m Nissi\nFrom New Jersey');
 });
 
-// Test case 10: Check Meta Keywords
-test('Check Meta Keywords', async ({ page }) => {
-  const metaKeywords = await page.locator('meta[name="keywords"]').getAttribute('content');
-  expect(metaKeywords).toBe('portfolio, website, Nissi');
+test('Check if "About Me" Title is Present', async ({ page }) => {
+  const aboutTitle = await page.locator('#about .sub-title');
+  expect(await aboutTitle.innerText()).toBe('About Me');
 });
 
-// Test case 11: Check If Images Are Loaded in Portfolio Section
-test('Check Images in Portfolio Section', async ({ page }) => {
-  const images = await page.locator('#portfolio .work-list img').count();
-  expect(images).toBe(3); // Assuming there are 3 images in the portfolio
+test('Check if "Skills" Tab is Present in About Section', async ({ page }) => {
+  const skillsTab = await page.locator('#skills');
+  expect(await skillsTab.count()).toBe(1);
 });
 
-// Test case 12: Check if Social Media Icons Exist in Contact Section
-test('Check Social Media Icons in Contact Section', async ({ page }) => {
-  const socialMediaIcons = await page.locator('.social-icons i').count();
-  expect(socialMediaIcons).toBe(4); // Assuming there are 4 social media icons
+test('Check if "Services" Title is Present', async ({ page }) => {
+  const servicesTitle = await page.locator('#services .sub-title');
+  expect(await servicesTitle.innerText()).toBe('Services');
 });
 
-// Test case 13: Check if Tab Contents Exist
-test('Check Tab Contents in About Section', async ({ page }) => {
-  const tabContents = await page.locator('.tab-contents').count();
-  expect(tabContents).toBe(3); // Assuming there are 3 tab contents
+test('Check if "Web Design" Service is Present', async ({ page }) => {
+  const webDesignService = await page.locator('.services-list h2:has-text("Web Design")');
+  expect(await webDesignService.count()).toBe(1);
 });
 
-// Test case 14: Check if Tab Links Exist
-test('Check Tab Links in About Section', async ({ page }) => {
-  const tabLinks = await page.locator('.tab-links').count();
-  expect(tabLinks).toBe(3); // Assuming there are 3 tab links
+test('Check if "UI/UX Design" Service is Present', async ({ page }) => {
+  const uiUxDesignService = await page.locator('.services-list h2:has-text("UI/UX Design")');
+  expect(await uiUxDesignService.count()).toBe(1);
 });
 
-// Test case 15: Check if Contact Form Elements Exist
-test('Check Contact Form Elements', async ({ page }) => {
-  const contactFormInputs = await page.locator('#contact input').count();
-  expect(contactFormInputs).toBe(3); // Assuming there are 3 input fields
+test('Check if "App Design" Service is Present', async ({ page }) => {
+  const appDesignService = await page.locator('.services-list h2:has-text("App Design")');
+  expect(await appDesignService.count()).toBe(1);
 });
 
-// Test case 16: Check if Testimonial Cards Exist
-test('Check Testimonial Cards', async ({ page }) => {
-  const testimonialCards = await page.locator('.testimonial-cards .work').count();
-  expect(testimonialCards).toBe(3); // Assuming there are 3 testimonials
+test('Check if "My Work" Title is Present in Portfolio Section', async ({ page }) => {
+  const myWorkTitle = await page.locator('#portfolio .sub-title');
+  expect(await myWorkTitle.innerText()).toBe('My Work');
 });
 
-// Test case 17: Check if Footer Links Exist
-test('Check Footer Links', async ({ page }) => {
-  const footerLinks = await page.locator('.footer a').count();
-  expect(footerLinks).toBe(10); // Assuming there are 10 footer links
+test('Check if "Railway Reservation Website" Work is Present', async ({ page }) => {
+  const railwayWork = await page.locator('.work h3:has-text("Railway Reservation Website")');
+  expect(await railwayWork.count()).toBe(1);
 });
 
-// Test case 18: Check if Header Bars Icons Exist
-test('Check Header Bars Icons', async ({ page }) => {
-  const headerIcons = await page.locator('.fa-solid.fa-bars').count();
-  expect(headerIcons).toBe(1); // Assuming there is one bars icon
+test('Check if "Operating System Project" Work is Present', async ({ page }) => {
+  const osProjectWork = await page.locator('.work h3:has-text("Operating System Project")');
+  expect(await osProjectWork.count()).toBe(1);
 });
 
-// Test case 19: Check if Header Logo Icon Exists
-test('Check Header Logo Icon', async ({ page }) => {
-  const logoIcon = await page.locator('.fa-solid.fa-circle-xmark').count();
-  expect(logoIcon).toBe(1); // Assuming there is one X-mark icon
+test('Check if "Text Based Captcha" Work is Present', async ({ page }) => {
+  const captchaWork = await page.locator('.work h3:has-text("Text Based Captcha")');
+  expect(await captchaWork.count()).toBe(1);
 });
 
-// Test case 20: Check if Download CV Button Exists
-test('Check Download CV Button', async ({ page }) => {
-  const downloadButton = await page.locator('.btn.btn2').count();
-  expect(downloadButton).toBe(1); // Assuming there is one download button
+test('Check if "Contact Me" Title is Present in Contact Section', async ({ page }) => {
+  const contactTitle = await page.locator('#contact .sub-title');
+  expect(await contactTitle.innerText()).toBe('Contact Me');
 });
