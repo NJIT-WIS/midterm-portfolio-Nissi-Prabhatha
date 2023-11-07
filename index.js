@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname, 'src')));
 
 // Define the route for the homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'docs', 'index.html'));
+  res.sendFile(path.join(__dirname, 'src', 'index.html'));
 });
 
 // Start the server

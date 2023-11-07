@@ -5,13 +5,14 @@ const websiteURL = 'http://localhost:3000'; // Update with your website URL
 // Test case 1: Check Page Title
 test('Check Page Title', async ({ page }) => {
   const title = await page.title();
-  expect(title).toBe('Personal Portfolio Website - Nissi');
+  expect(title).toBe('Nissi Portfolio Website');
 });
 
 // Test case 2: Check Logo in Header
 test('Check Logo in Header', async ({ page }) => {
-  const logoText = await page.locator('.logo').textContent();
-  expect(logoText).toBe('Nissi');
+  const logoImage = await page.locator('.logo img');
+  const logoImageCount = await logoImage.count();
+  expect(logoImageCount).toBe(1); // Check if there's exactly one image inside the logo container
 });
 
 // Test case 3: Check Navigation Menu
