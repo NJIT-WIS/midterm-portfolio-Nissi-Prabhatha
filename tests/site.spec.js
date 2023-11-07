@@ -1,160 +1,123 @@
 const { test, expect } = require('@playwright/test');
 
-const websiteURL = 'http://localhost:3000';
+const websiteURL = 'http://localhost:3000'; // Update with your website URL
 
-// Expected constants
-const expectedTitle = 'KRYPTO';
-const expectedLogoText = 'KRYPTO';
-const expectedMenuItemCount = 4;
-const expectedHeroTitle = 'Discover and Collect Rare NFTs';
-const expectedHeroSubText = 'The most secure marketplace for buying and selling unique crypto assets.';
-const expectedHeroLinkCount = 2;
-const expectedFeaturedTitle = 'Featured In:';
-const expectedFeaturedImageCount = 4;
-const expectedAboutTitle = 'Built-In Analytics to Track Your NFTs';
-const expectedBuyTitle = 'Built-In Analytics to Track Your NFTs';
-const expectedTestimonialsTitle = 'Read What Others Have to Say';
-const expectedTestimonialCount = 3;
-const expectedReadyTitle = 'Are you ready?';
-const expectedReadyLinkCount = 1;
-const expectedMetaDescription = 'This is an example NFT website coded from a Figma tutorial';
-const expectedMetaKeywordsNotEmpty = '';
-const expectedNavs = ['Home', 'About', 'Services', 'Contact'];
-const expectedAlts = ['Featured in fcompany', 'Featured in forbes', 'Featured in mit', 'Featured in tcrunch'];
-const expectedNames = ['Olivia Cole', 'Evan White', 'Jessica Page'];
-const expectedFooterLinks = ['Home', 'Buy NFTs', 'Sell NFTs', 'Browse NFTs', 'Email', 'LinkedIn', 'Instagram', 'Twitter', 'Market', 'Contact'];
-const expectedIcons = ['fas fa-home', 'fas fa-money-bill-wave', 'fas fa-hand-holding-usd', 'fas fa-eye', 'fas fa-envelope', 'fab fa-linkedin', 'fab fa-instagram', 'fab fa-twitter', 'fas fa-store', 'fas fa-phone'];
-const expectedSubmitButtonText = 'Submit';
-
-test.beforeEach(async ({ page }) => {
-  await page.goto(websiteURL);
-});
-
+// Test case 1: Check Page Title
 test('Check Page Title', async ({ page }) => {
   const title = await page.title();
-  expect(title).toBe(expectedTitle);
+  expect(title).toBe('Personal Portfolio Website - Nissi');
 });
 
+// Test case 2: Check Logo in Header
 test('Check Logo in Header', async ({ page }) => {
   const logoText = await page.locator('.logo').textContent();
-  expect(logoText).toBe(expectedLogoText);
+  expect(logoText).toBe('Nissi');
 });
 
-test('Check Navigation Menu in Header', async ({ page }) => {
-  const menuItemCount = await page.locator('.menu .menu-item').count();
-  expect(menuItemCount).toBe(expectedMenuItemCount);
+// Test case 3: Check Navigation Menu
+test('Check Navigation Menu', async ({ page }) => {
+  const menuItems = await page.locator('#sidemenu li a').count();
+  expect(menuItems).toBe(5); // Five menu items
 });
 
+// Test case 4: Check Hero Section
 test('Check Hero Section', async ({ page }) => {
-  expect(await page.locator('.hero h1').textContent()).toBe(expectedHeroTitle);
-  expect(await page.locator('.hero .sub-text').textContent()).toBe(expectedHeroSubText);
+  const heroTitle = await page.locator('.header-text h1').textContent();
+  expect(heroTitle).toContain("HI, I'm Nissi From New Jersey");
 });
 
-test('Check Links in Hero Section', async ({ page }) => {
-  const linkCount = await page.locator('.hero .hero-text a').count();
-  expect(linkCount).toBe(expectedHeroLinkCount);
-});
-
-test('Check Featured Section', async ({ page }) => {
-  expect(await page.locator('.featured h2').textContent()).toBe(expectedFeaturedTitle);
-  const imageCount = await page.locator('.featured .image-container img').count();
-  expect(imageCount).toBe(expectedFeaturedImageCount);
-});
-
+// Test case 5: Check About Section
 test('Check About Section', async ({ page }) => {
-  expect(await page.locator('#about h2').textContent()).toBe(expectedAboutTitle);
+  const aboutTitle = await page.locator('#about h1').textContent();
+  expect(aboutTitle).toBe('About Me');
 });
 
-test('Check Buy Section', async ({ page }) => {
-  expect(await page.locator('#buy h2').textContent()).toBe(expectedBuyTitle);
+// Test case 6: Check Services Section
+test('Check Services Section', async ({ page }) => {
+  const servicesTitle = await page.locator('#services h1').textContent();
+  expect(servicesTitle).toBe('Services');
 });
 
-test('Check Testimonials Section', async ({ page }) => {
-  expect(await page.locator('.testimonials-header h2').textContent()).toBe(expectedTestimonialsTitle);
-  const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
-  expect(testimonialCount).toBe(expectedTestimonialCount);
+// Test case 7: Check Portfolio Section
+test('Check Portfolio Section', async ({ page }) => {
+  const portfolioTitle = await page.locator('#portfolio h1').textContent();
+  expect(portfolioTitle).toBe('My Work');
 });
 
-test('Check Ready Section', async ({ page }) => {
-  expect(await page.locator('.ready h2').textContent()).toBe(expectedReadyTitle);
-  const readyLinkCount = await page.locator('.ready a').count();
-  expect(readyLinkCount).toBe(expectedReadyLinkCount);
+// Test case 8: Check Contact Section
+test('Check Contact Section', async ({ page }) => {
+  const contactTitle = await page.locator('#contact h1').textContent();
+  expect(contactTitle).toBe('Contact Me');
 });
 
-test('Check Footer', async ({ page }) => {
-  const footerLinkCount = await page.locator('.footer-link').count();
-  expect(footerLinkCount).toBeGreaterThan(0);
+// Test case 9: Check Meta Description
+test('Check Meta Description', async ({ page }) => {
+  const metaDescription = await page.locator('meta[name="description"]').getAttribute('content');
+  expect(metaDescription).toBe('Personal Portfolio Website - Nissi');
 });
 
-test('Check SEO Meta Description', async ({ page }) => {
-  const metaDescription = await page.getAttribute('meta[name="description"]', 'content');
-  expect(metaDescription).toBe(expectedMetaDescription);
+// Test case 10: Check Meta Keywords
+test('Check Meta Keywords', async ({ page }) => {
+  const metaKeywords = await page.locator('meta[name="keywords"]').getAttribute('content');
+  expect(metaKeywords).toBe('portfolio, website, Nissi');
 });
 
-test('Check SEO Meta Keywords', async ({ page }) => {
-  const metaKeywords = await page.getAttribute('meta[name="keywords"]', 'content');
-  expect(metaKeywords).not.toBe(expectedMetaKeywordsNotEmpty);
+// Test case 11: Check If Images Are Loaded in Portfolio Section
+test('Check Images in Portfolio Section', async ({ page }) => {
+  const images = await page.locator('#portfolio .work-list img').count();
+  expect(images).toBe(3); // Assuming there are 3 images in the portfolio
 });
 
-test('Check Newsletter Form Elements', async ({ page }) => {
-  const newsletterForm = await page.locator('.newsletter-form');
-  const inputField = await newsletterForm.locator('input[type="email"]');
-  const submitButton = await newsletterForm.locator('input[type="submit"]');
-  expect(await inputField.isVisible()).toBe(true);
-  expect(await submitButton.isVisible()).toBe(true);
-  expect(await submitButton.getAttribute('value')).toBe(expectedSubmitButtonText);
+// Test case 12: Check if Social Media Icons Exist in Contact Section
+test('Check Social Media Icons in Contact Section', async ({ page }) => {
+  const socialMediaIcons = await page.locator('.social-icons i').count();
+  expect(socialMediaIcons).toBe(4); // Assuming there are 4 social media icons
 });
 
-test('Check All Navigation Links', async ({ page }) => {
-  const navLinks = await page.locator('.menu-item');
-  const count = await navLinks.count();
-
-  for (let i = 0; i < count; i++) {
-    const link = navLinks.nth(i);
-    expect(await link.isVisible()).toBe(true);
-  }
+// Test case 13: Check if Tab Contents Exist
+test('Check Tab Contents in About Section', async ({ page }) => {
+  const tabContents = await page.locator('.tab-contents').count();
+  expect(tabContents).toBe(3); // Assuming there are 3 tab contents
 });
 
-
-test('Check All Featured Company Logos', async ({ page }) => {
-  const images = await page.locator('.image-container img');
-  const count = await images.count();
-
-  for (let i = 0; i < count; i++) {
-    const image = images.nth(i);
-    expect(await image.isVisible()).toBe(true);
-  }
+// Test case 14: Check if Tab Links Exist
+test('Check Tab Links in About Section', async ({ page }) => {
+  const tabLinks = await page.locator('.tab-links').count();
+  expect(tabLinks).toBe(3); // Assuming there are 3 tab links
 });
 
-
-test('Check All Testimonials', async ({ page }) => {
-  const testimonials = await page.locator('.testimonial');
-  const count = await testimonials.count();
-
-  for (let i = 0; i < count; i++) {
-    const testimonial = testimonials.nth(i);
-    expect(await testimonial.isVisible()).toBe(true);
-  }
+// Test case 15: Check if Contact Form Elements Exist
+test('Check Contact Form Elements', async ({ page }) => {
+  const contactFormInputs = await page.locator('#contact input').count();
+  expect(contactFormInputs).toBe(3); // Assuming there are 3 input fields
 });
 
-test('Check All Footer Links', async ({ page }) => {
-  const footerLinks = await page.locator('.footer-link');
-  const count = await footerLinks.count();
-
-  for (let i = 0; i < count; i++) {
-    const link = footerLinks.nth(i);
-    expect(await link.isVisible()).toBe(true);
-  }
+// Test case 16: Check if Testimonial Cards Exist
+test('Check Testimonial Cards', async ({ page }) => {
+  const testimonialCards = await page.locator('.testimonial-cards .work').count();
+  expect(testimonialCards).toBe(3); // Assuming there are 3 testimonials
 });
 
-test('Check All Footer Icons', async ({ page }) => {
-  const footerIcons = await page.locator('.footer-link i');
-  const count = await footerIcons.count();
-
-  for (let i = 0; i < count; i++) {
-    const icon = footerIcons.nth(i);
-    expect(await icon.isVisible()).toBe(true);
-  }
+// Test case 17: Check if Footer Links Exist
+test('Check Footer Links', async ({ page }) => {
+  const footerLinks = await page.locator('.footer a').count();
+  expect(footerLinks).toBe(10); // Assuming there are 10 footer links
 });
 
+// Test case 18: Check if Header Bars Icons Exist
+test('Check Header Bars Icons', async ({ page }) => {
+  const headerIcons = await page.locator('.fa-solid.fa-bars').count();
+  expect(headerIcons).toBe(1); // Assuming there is one bars icon
+});
 
+// Test case 19: Check if Header Logo Icon Exists
+test('Check Header Logo Icon', async ({ page }) => {
+  const logoIcon = await page.locator('.fa-solid.fa-circle-xmark').count();
+  expect(logoIcon).toBe(1); // Assuming there is one X-mark icon
+});
+
+// Test case 20: Check if Download CV Button Exists
+test('Check Download CV Button', async ({ page }) => {
+  const downloadButton = await page.locator('.btn.btn2').count();
+  expect(downloadButton).toBe(1); // Assuming there is one download button
+});
