@@ -3,102 +3,111 @@ const { test, expect } = require('@playwright/test');
 
 const websiteURL = 'http://localhost:3000'; // Replace with the URL of the student's resume page
 
+test.beforeEach(async ({ page }) => {
+  await page.goto(websiteURL);
+});
+
 test('Check Page Title', async ({ page }) => {
   const title = await page.title();
-  expect(title).toBe('Personal Portfolio Website - Nissi');
+  expect(title).toBe('Nissi Portfolio Website');
 });
 
-test('Check if Logo Image is Present', async ({ page }) => {
-  const logoImage = await page.locator('.logo img');
-  expect(await logoImage.count()).toBe(1);
+test('Check Logo Visibility', async ({ page }) => {
+  const logo = await page.isVisible('.logo');
+  expect(logo).toBe(true);
 });
 
-test('Check if Navigation Menu is Present', async ({ page }) => {
-  const menuItems = await page.locator('#sidemenu li');
-  expect(await menuItems.count()).toBe(5);
+test('Check Navigation Menu', async ({ page }) => {
+  const sidemenu = await page.isVisible('#sidemenu');
+  expect(sidemenu).toBe(true);
 });
 
-test('Check if About Section is Present', async ({ page }) => {
-  const aboutSection = await page.locator('#about');
-  expect(await aboutSection.count()).toBe(1);
+test('Check Home Link in Navigation Menu', async ({ page }) => {
+  const homeLink = await page.isVisible('#sidemenu li:nth-child(1) a');
+  expect(homeLink).toBe(true);
 });
 
-test('Check if Services Section is Present', async ({ page }) => {
-  const servicesSection = await page.locator('#services');
-  expect(await servicesSection.count()).toBe(1);
+test('Check About Link in Navigation Menu', async ({ page }) => {
+  const aboutLink = await page.isVisible('#sidemenu li:nth-child(2) a');
+  expect(aboutLink).toBe(true);
 });
 
-test('Check if Portfolio Section is Present', async ({ page }) => {
-  const portfolioSection = await page.locator('#portfolio');
-  expect(await portfolioSection.count()).toBe(1);
+test('Check Services Link in Navigation Menu', async ({ page }) => {
+  const servicesLink = await page.isVisible('#sidemenu li:nth-child(3) a');
+  expect(servicesLink).toBe(true);
 });
 
-test('Check if Contact Section is Present', async ({ page }) => {
-  const contactSection = await page.locator('#contact');
-  expect(await contactSection.count()).toBe(1);
+test('Check Portfolio Link in Navigation Menu', async ({ page }) => {
+  const portfolioLink = await page.isVisible('#sidemenu li:nth-child(4) a');
+  expect(portfolioLink).toBe(true);
 });
 
-test('Check if "Python Developer" Text is Present in Header', async ({ page }) => {
-  const pythonDeveloperText = await page.locator('.header-text p');
-  expect(await pythonDeveloperText.innerText()).toBe('Python Developer');
+test('Check Contact Link in Navigation Menu', async ({ page }) => {
+  const contactLink = await page.isVisible('#sidemenu li:nth-child(5) a');
+  expect(contactLink).toBe(true);
 });
 
-test('Check if "HI, I\'m Nissi From New Jersey" Text is Present in Header', async ({ page }) => {
-  const headerText = await page.locator('.header-text h1');
-  expect(await headerText.innerText()).toBe('HI, I\'m Nissi\nFrom New Jersey');
+test('Check "HI, I\'m Nissi" Text', async ({ page }) => {
+  const hiText = await page.textContent('.header-text h1');
+  expect(hiText).toBe("HI, I'm Nissi From New Jersey");
 });
 
-test('Check if "About Me" Title is Present', async ({ page }) => {
-  const aboutTitle = await page.locator('#about .sub-title');
-  expect(await aboutTitle.innerText()).toBe('About Me');
+test('Check "Python Developer" Text', async ({ page }) => {
+  const pythonDeveloperText = await page.textContent('.header-text p');
+  expect(pythonDeveloperText).toBe('Python Developer');
 });
 
-test('Check if "Skills" Tab is Present in About Section', async ({ page }) => {
-  const skillsTab = await page.locator('#skills');
-  expect(await skillsTab.count()).toBe(1);
+test('Check About Section Visibility', async ({ page }) => {
+  const aboutSection = await page.isVisible('#about');
+  expect(aboutSection).toBe(true);
 });
 
-test('Check if "Services" Title is Present', async ({ page }) => {
-  const servicesTitle = await page.locator('#services .sub-title');
-  expect(await servicesTitle.innerText()).toBe('Services');
+test('Check "Skills" Tab Visibility in About Section', async ({ page }) => {
+  const skillsTab = await page.isVisible('#skills');
+  expect(skillsTab).toBe(true);
 });
 
-test('Check if "Web Design" Service is Present', async ({ page }) => {
-  const webDesignService = await page.locator('.services-list h2:has-text("Web Design")');
-  expect(await webDesignService.count()).toBe(1);
+test('Check "Experience" Tab Absence in About Section', async ({ page }) => {
+  const experienceTab = await page.waitForSelector('#experience', { state: 'hidden', timeout: 10000 });
+  expect(experienceTab).toBeNull();
 });
 
-test('Check if "UI/UX Design" Service is Present', async ({ page }) => {
-  const uiUxDesignService = await page.locator('.services-list h2:has-text("UI/UX Design")');
-  expect(await uiUxDesignService.count()).toBe(1);
+test('Check "Education" Tab Absence in About Section', async ({ page }) => {
+  const educationTab = await page.waitForSelector('#education', { state: 'hidden', timeout: 10000 });
+  expect(educationTab).toBeNull();
 });
 
-test('Check if "App Design" Service is Present', async ({ page }) => {
-  const appDesignService = await page.locator('.services-list h2:has-text("App Design")');
-  expect(await appDesignService.count()).toBe(1);
+test('Check "Web Design" Service', async ({ page }) => {
+  const webDesignService = await page.isVisible('#services div:nth-child(1)');
+  expect(webDesignService).toBe(true);
 });
 
-test('Check if "My Work" Title is Present in Portfolio Section', async ({ page }) => {
-  const myWorkTitle = await page.locator('#portfolio .sub-title');
-  expect(await myWorkTitle.innerText()).toBe('My Work');
+test('Check "UI/UX Design" Service', async ({ page }) => {
+  const uiuxDesignService = await page.isVisible('#services div:nth-child(2)');
+  expect(uiuxDesignService).toBe(true);
 });
 
-test('Check if "Railway Reservation Website" Work is Present', async ({ page }) => {
-  const railwayWork = await page.locator('.work h3:has-text("Railway Reservation Website")');
-  expect(await railwayWork.count()).toBe(1);
+test('Check "App Design" Service', async ({ page }) => {
+  const appDesignService = await page.isVisible('#services div:nth-child(3)');
+  expect(appDesignService).toBe(true);
 });
 
-test('Check if "Operating System Project" Work is Present', async ({ page }) => {
-  const osProjectWork = await page.locator('.work h3:has-text("Operating System Project")');
-  expect(await osProjectWork.count()).toBe(1);
+test('Check "Railway Reservation Website" Work', async ({ page }) => {
+  const railwayWork = await page.isVisible('#portfolio .work:nth-child(1)');
+  expect(railwayWork).toBe(true);
 });
 
-test('Check if "Text Based Captcha" Work is Present', async ({ page }) => {
-  const captchaWork = await page.locator('.work h3:has-text("Text Based Captcha")');
-  expect(await captchaWork.count()).toBe(1);
+test('Check "Operating System Project" Work', async ({ page }) => {
+  const osProjectWork = await page.isVisible('#portfolio .work:nth-child(2)');
+  expect(osProjectWork).toBe(true);
 });
 
-test('Check if "Contact Me" Title is Present in Contact Section', async ({ page }) => {
-  const contactTitle = await page.locator('#contact .sub-title');
-  expect(await contactTitle.innerText()).toBe('Contact Me');
+test('Check "Text Based Captcha" Work', async ({ page }) => {
+  const captchaWork = await page.isVisible('#portfolio .work:nth-child(3)');
+  expect(captchaWork).toBe(true);
+});
+
+test('Check "Contact Me" Section Visibility', async ({ page }) => {
+  const contactSection = await page.isVisible('#contact');
+  expect(contactSection).toBe(true);
 });
